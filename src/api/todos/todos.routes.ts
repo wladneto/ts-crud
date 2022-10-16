@@ -17,6 +17,15 @@ router.get(
     TodoHandlers.findOne,
 );
 
+router.put(
+    '/:id',
+    validateRequest({
+        params: ParamsWithId,
+        body: Todo,
+    }), 
+    TodoHandlers.updateOne,
+);
+
 router.post(
     '/',
     validateRequest({

@@ -53,7 +53,7 @@ describe('POST /api/v1/todos', () => {
       .expect('Content-Type', /json/)
       .expect(201)
       .then((response) =>{
-        console.log(response.body)
+        //console.log(response.body)
         //check keys
         expect(response.body).toHaveProperty('_id');
         expect(response.body).toHaveProperty('content');
@@ -105,10 +105,64 @@ describe('GET /api/v1/todos/:id', () => {
       .expect('Content-Type', /json/)
       .expect(422)
       .then((response) =>{
-        console.log(response.body.message)
+        //console.log(response.body.message)
         expect(response.body).toHaveProperty('message');
         expect(response.body).toHaveProperty('stack');
         done();
       });
     });
+});
+
+describe('PUT /api/v1/todos/:id', () => {
+  it('responds with a not found Error', async() => 
+  request(app)
+    .put(`/api/v1/todos/634970f73cbf6bac2eda9f2b`)
+    .send({
+      content:'Learn TypeScript Wlad (Try update)',
+      done: true,
+    })
+    .set('Accept', 'application/json')
+    .expect('Content-Type', /json/)
+    .expect(404)
+    .then((response) =>{
+      expect(response.body).toHaveProperty('message');
+      expect(response.body).toHaveProperty('stack');
+    }),
+);
+
+  it('responds with a invalid ObjectId error', (done) => {
+  request(app)
+    .put(`/api/v1/todos/wlad-update`)
+    .set('Accept', 'application/json')
+    .expect('Content-Type', /json/)
+    .expect(422)
+    .then((response) =>{
+      //console.log(response.body.message)
+      expect(response.body).toHaveProperty('message');
+      expect(response.body).toHaveProperty('stack');
+      done();
+    });
+  });
+
+    it('responds with a single todo', async() => 
+    request(app)
+      .put(`/api/v1/todos/${id}`)
+      .send({
+        content:'Learn TypeScript Wlad (Updated)',
+        done: true,
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) =>{
+        //check keys
+        expect(response.body).toHaveProperty('_id');
+        expect(response.body).toHaveProperty('content');
+        expect(response.body).toHaveProperty('done');
+        //check values
+        expect(response.body.content).toBe('Learn TypeScript Wlad (Updated)');
+        expect(response.body.done).toBe(true);
+        expect(response.body._id).toBe(id)
+      }),
+  );
 });
