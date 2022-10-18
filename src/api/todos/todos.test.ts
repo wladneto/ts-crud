@@ -1,3 +1,4 @@
+import { doesNotMatch } from 'assert';
 import request from 'supertest';
 
 import app from '../../app';
@@ -128,7 +129,7 @@ describe('PUT /api/v1/todos/:id', () => {
       expect(response.body).toHaveProperty('message');
       expect(response.body).toHaveProperty('stack');
     }),
-);
+  );
 
   it('responds with a invalid ObjectId error', (done) => {
   request(app)
@@ -165,4 +166,51 @@ describe('PUT /api/v1/todos/:id', () => {
         expect(response.body._id).toBe(id)
       }),
   );
+});
+
+describe('DELETE /api/v1/todos/:id', () => {
+  it('responds with a not found Error', async() => 
+  request(app)
+    .delete(`/api/v1/todos/634970f73cbf6bac2eda9f2b`)
+    .set('Accept', 'application/json')
+    .expect('Content-Type', /json/)
+    .expect(404)
+    .then((response) =>{
+      expect(response.body).toHaveProperty('message');
+      expect(response.body).toHaveProperty('stack');
+    }),
+  );
+
+  it('responds with a invalid ObjectId error', (done) => {
+  request(app)
+    .delete(`/api/v1/todos/wlad-update`)
+    .set('Accept', 'application/json')
+    .expect('Content-Type', /json/)
+    .expect(422)
+    .then((response) =>{
+      //console.log(response.body.message)
+      expect(response.body).toHaveProperty('message');
+      expect(response.body).toHaveProperty('stack');
+      done();
+    });
+  });
+
+    it('responds with 204 status code (no body)', (done) => {
+    request(app)
+      .delete(`/api/v1/todos/${id}`)
+      .set('Accept', 'application/json')
+      .expect(204, done);
+    });
+
+    it('responds with a not found Error', async() => 
+    request(app)
+      .delete(`/api/v1/todos/${id}`)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(404)
+      .then((response) =>{
+        expect(response.body).toHaveProperty('message');
+        expect(response.body).toHaveProperty('stack');
+      }),
+    );
 });

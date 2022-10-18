@@ -17,6 +17,14 @@ router.get(
     TodoHandlers.findOne,
 );
 
+router.post(
+    '/',
+    validateRequest({
+        body: Todo,
+    }),
+    TodoHandlers.createOne,
+);
+
 router.put(
     '/:id',
     validateRequest({
@@ -26,12 +34,12 @@ router.put(
     TodoHandlers.updateOne,
 );
 
-router.post(
-    '/',
+router.delete(
+    '/:id',
     validateRequest({
-        body: Todo,
-    }),
-    TodoHandlers.createOne,
+        params: ParamsWithId
+    }), 
+    TodoHandlers.deleteOne,
 );
 
 export default router;
