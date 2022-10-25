@@ -1,7 +1,7 @@
 import {MongoClient} from 'mongodb';
 
 const {
-    MONGO_URL= "mongodb+srv://todo-user:Q4iFDPLfvoZUOUX9@cluster0.cohsblf.mongodb.net/tests"
+    MONGO_URL= "mongodb+srv://user:password@server/database"
 } = process.env;
 
 export const client = new MongoClient(MONGO_URL);
