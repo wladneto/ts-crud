@@ -9,7 +9,7 @@ router.get<{}, MessageResponse>('/', (req, res) => {
   res.json({
     message: 'API - 👋🌎🌍🌏',
   });
-})
+});
 
 router.use('/todos', todos);
 

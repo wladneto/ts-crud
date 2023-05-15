@@ -1,10 +1,10 @@
 import { WithId } from 'mongodb';
 import * as z from 'zod';
-import {db} from '../../db'
+import { db } from '../../db';
 
 export const Todo = z.object({
-    content: z.string().min(1),
-    done: z.boolean().default(false),
+  content: z.string().min(1),
+  done: z.boolean().default(false),
 });
 
 export type Todo = z.infer<typeof Todo>;

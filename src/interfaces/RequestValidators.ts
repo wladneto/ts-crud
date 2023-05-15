@@ -1,7 +1,7 @@
 import { AnyZodObject } from 'zod';
 
 export default interface RequestValidators {
-    params?: AnyZodObject,
-    query?: AnyZodObject,
-    body?: AnyZodObject
+  params?: AnyZodObject,
+  query?: AnyZodObject,
+  body?: AnyZodObject
 }

@@ -1,29 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 
-import RequestValidators from './interfaces/RequestValidators'
+import RequestValidators from './interfaces/RequestValidators';
 import ErrorResponse from './interfaces/ErrorResponse';
 
-export function validateRequest(validators: RequestValidators){
+export function validateRequest(validators: RequestValidators) {
   return async (req: Request, res: Response, next: NextFunction) => {
-      try {
-          if (validators.params){
-              req.params = await validators.params.parseAsync(req.params);
-          }
-          if (validators.query){
-              req.query = await validators.query.parseAsync(req.query);
-          }
-          if (validators.body){
-              req.body = await validators.body.parseAsync(req.body);
-          }
-          next();
+    try {
+      if (validators.params) {
+        req.params = await validators.params.parseAsync(req.params);
       }
-      catch (error) {
-          if (error instanceof ZodError){
-              res.status(422)
-          }
-          next(error);
+      if (validators.query) {
+        req.query = await validators.query.parseAsync(req.query);
       }
+      if (validators.body) {
+        req.body = await validators.body.parseAsync(req.body);
+      }
+      next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res.status(422);
+      }
+      next(error);
+    }
   };
 }
 

@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb';
 import * as z from 'zod';
-import { TypeOf } from 'zod';
 
 export const ParamsWithId = z.object({
   id: z.string().min(1).refine((val) => {
@@ -10,7 +9,7 @@ export const ParamsWithId = z.object({
       return false;
     }
   }, {
-      message: 'Invalid objectId'
+    message: 'Invalid objectId',
   }),
 });
 

@@ -1,7 +1,7 @@
-import {MongoClient} from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 const {
-    MONGO_URL= "mongodb+srv://user:password@server/database"
+  MONGO_URL = 'mongodb://admin:adminpass@localhost/teste',
 } = process.env;
 
 export const client = new MongoClient(MONGO_URL);
